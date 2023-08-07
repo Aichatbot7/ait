@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fee Increase Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0zNzNiYXRjaDEzLTA4NC5qcGc.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: #333333;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #3498db;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #3498db;
+        border-radius: 5px;
+        background-color: rgba(245, 245, 245, 0.8);
+        color: #061B2F;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Fee Increase Calculator</h1>
+
+    <label for="currentTeachers">Current Number of Teachers:</label>
+    <input type="number" id="currentTeachers" min="0">
+
+    <label for="currentStudents">Current Number of Students:</label>
+    <input type="number" id="currentStudents" min="0">
+
+    <label for="teacherSalaryUSD">Current Average Teacher Salary ($):</label>
+    <input type="number" id="teacherSalaryUSD" min="0">
+
+    <label for="salaryIncrease">Salary Increase (%):</label>
+    <input type="number" id="salaryIncrease" min="0">
+
+    <label for="maintenancePercentage">Percentage for Maintenance (%):</label>
+    <input type="number" id="maintenancePercentage" min="0" max="100">
+
+    <button onclick="calculateFeeIncrease()">Calculate Fee Increase</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function calculateFeeIncrease() {
+    const currentTeachers = parseInt(document.getElementById('currentTeachers').value);
+    const currentStudents = parseInt(document.getElementById('currentStudents').value);
+    const teacherSalaryUSD = parseFloat(document.getElementById('teacherSalaryUSD').value);
+    const salaryIncrease = parseFloat(document.getElementById('salaryIncrease').value);
+    const maintenancePercentage = parseFloat(document.getElementById('maintenancePercentage').value);
+
+    if (isNaN(currentTeachers) || isNaN(currentStudents) || isNaN(teacherSalaryUSD) || isNaN(salaryIncrease) || isNaN(maintenancePercentage)) {
+        document.getElementById('result').innerText = 'Please enter valid numbers.';
+        return;
+    }
+
+    const totalSalaryIncreaseINR = (teacherSalaryUSD * currentTeachers * (salaryIncrease / 100));
+    const maintenanceFundsINR = totalSalaryIncreaseINR * (maintenancePercentage / 100);
+    const teacherFundsINR = totalSalaryIncreaseINR - maintenanceFundsINR;
+    const feeIncreasePerStudentINR = teacherFundsINR / currentStudents;
+
+    document.getElementById('result').innerHTML = `
+        Estimated Teacher Salary Increase (INR): ₹${teacherFundsINR.toFixed(2)}<br>
+        Estimated Maintenance Funds (INR): ₹${maintenanceFundsINR.toFixed(2)}<br>
+        Estimated Fee Increase per Student (INR): ₹${feeIncreasePerStudentINR.toFixed(2)}
+    `;
+}
+</script>
+</body>
+</html>
+]
